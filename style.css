@@ -13,12 +13,13 @@
     align-items: center;
     justify-content: flex-start;
     background-color: #9dcadb;
+    overflow: auto;
 }
 
 .comment-controls {
     display: flex;
     flex-direction: column;
-    width: 40rem;
+    min-width: 80%;
 }
 
 .comment-controls label {
@@ -78,4 +79,14 @@
 
 .comment .comment-actions a:hover{
     color:white
+}
+
+@media(max-width: 24rem){
+    .comment-layout{
+        padding: 2rem 0;
+    }
+
+    .comment-section-parent, .comment-section{
+        padding: 0;
+    }
 }
