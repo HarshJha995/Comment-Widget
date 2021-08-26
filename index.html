@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Comment Widget</title>
+</head>
+
+<body>
+    <div class="comment-layout">
+        <div class="comment-controls">
+            <label for="author">User</label>
+            <input type="text" name="author" id="author">
+            <label for="comment">Comment here...</label>
+            <input type="text" name="comment" id="comment">
+            <input type="button" onclick="addComment()" value="Comment"></button>
+        </div>
+        <div class="comment-section-parent" id="commentSection">
+            <div class="comments-pane">
+                <ul class="comments-pane__list">
+                    <!-- <li class="comment">
+                        <h4>Author: </h4>
+                        <span>Comment text</span>
+                        <div class="comment-actions">
+                            <a href="#" onclick="replyHandler()" class="reply">Reply</a>
+                            <a href="#" class="delete">Delete</a>
+                            <a href="#" class="like">Like</a>
+                        </div>
+                        <ul class="comments-pane__list">
+                            <li class="comment">
+                                <h4>Author: </h4>
+                                <span>Comment text</span>
+                                <div class="comment-actions">
+                                    <a href="#" onclick="replyHandler()" class="reply">Reply</a>
+                                    <a href="#" class="delete">Delete</a>
+                                    <a href="#" class="like">Like</a>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
