@@ -7,7 +7,7 @@ const addComment = () => {
     let comment = {
         author: authorEle.value,
         text: commentEle.value,
-        id: `${authorEle.value}__original__${commentsParent.length}`,
+        id: `${authorEle.value}__original__${Math.floor(Math.random() * (999 + 100 - 1))}`,
         replies: [],
         isParent: true,
         likes: 0
@@ -36,6 +36,7 @@ function likeHandler(comment) {
 
 }
 
+//function to handle the input texts for the reply
 function replyHandler(e) {
     let comment = commentsParent.find(comment => comment.id === e.target.id);
     let commentDiv = document.createElement("div");
@@ -71,12 +72,13 @@ function replyHandler(e) {
 
 }
 
+//function to set the reply according to the id received from the replyButton trigerring the event
 function setReply(e) {
-    let commentNode = findCommentNode(e.target.id, commentsParent);
+    let commentNode = findCommentNode(e.target.id);
     commentNode.replies.push({
         author: document.querySelector("#" + e.target.id + "__user").value,
         text: document.querySelector("#" + e.target.id + "__reply").value,
-        id: document.querySelector("#" + e.target.id + "__user").value + "__reply__" + commentNode.replies.length,
+        id: document.querySelector("#" + e.target.id + "__user").value + "__reply__" + Math.floor(Math.random() * (1000)),
         replies: [],
         parent: e.target.id,
         likes: 0
@@ -84,22 +86,29 @@ function setReply(e) {
     renderComments(commentsParent, true)
 
     let commentDiv = document.querySelector(`#${commentNode.id} .comment-controls`);
-    // console.log(commentDiv)
     commentDiv.remove();
 }
 
-function findCommentNode(value, arr) {
-    for (let comment of arr) {
-        if (comment.id == value) {
-            return comment;
+//recursive function to find the comment with id == value inside the total list of comments, inefficient - need to optimize
+function findCommentNode(value, currentArr = commentsParent) {
+    for (let i = 0; i < currentArr.length; i++) {
+        if (currentArr[i].id == value) {
+            return currentArr[i];
         }
-        if (comment.replies.length) {
-            return findCommentNode(value, comment.replies)
+        else if (currentArr[i].replies.length) {
+            let component = findCommentNode(value, currentArr[i].replies)
+            if (component?.id == value) {
+                return component
+            }
+            else
+                continue;
         }
     }
 }
 
+
 function renderComments(commentNode) {
+    //recursive function to render html for each comment and place it .comments-pane__list div or inside div of its parent comment
     commentNode.forEach(comment => {
         if (!document.querySelector(`#${comment.id}`)) {
             let listItem = document.createElement("li");
@@ -142,17 +151,19 @@ function renderComments(commentNode) {
             listItem.appendChild(commentControls);
 
             if (comment.isParent) {
+                // listItem.addEventListener("click", (e) => this.setReply.call(this, e))
                 commentsNodeToAppendTo = document.querySelector(".comments-pane__list");
                 commentsNodeToAppendTo.appendChild(listItem);
             }
             else {
+                // listItem.addEventListener("click", (e) => this.setReply.call(this, e))
                 commentsNodeToAppendTo = document.querySelector("#" + comment.parent);
                 commentsNodeToAppendTo.appendChild(listItem);
             }
         }
 
         if (comment.replies.length) {
-            renderComments(comment.replies)
+            renderComments(comment.replies) //recursively set comment for replies as well
         }
 
     })
